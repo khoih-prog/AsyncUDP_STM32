@@ -1,0 +1,35 @@
+{
+  "name":"AsyncUDP_STM32",
+  "description":"Asynchronous UDP Library for STM32 using built-in LAN8742A Ethernet",
+  "keywords":"async,udp,server,client,multicast,broadcast,webserver,stm32,ethernet",
+  "authors": [
+    {
+      "name": "Hristo Gochkov",
+      "url":   "https://github.com/me-no-dev",
+    }
+    {
+      "name":  "Khoi Hoang",
+      "url":   "https://github.com/khoih-prog",
+      "email": "khoih.prog@gmail.com",
+      "maintainer": true,
+    }  
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/khoih-prog/AsyncUDP_STM32"
+  },
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": ["stm32"],
+  "dependencies": [
+    {
+      "name": "STM32duino LwIP",
+      "platforms": "stm32"
+    },
+    {
+      "name": "STM32duino STM32Ethernet",
+      "platforms": "stm32"
+    }
+  ]
+}
