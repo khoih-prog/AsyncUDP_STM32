@@ -1,5 +1,6 @@
 {
   "name":"AsyncUDP_STM32",
+  "version": "1.1.0",
   "description":"Asynchronous UDP Library for STM32 using built-in LAN8742A Ethernet",
   "keywords":"async,udp,server,client,multicast,broadcast,webserver,stm32,ethernet",
   "authors": [
