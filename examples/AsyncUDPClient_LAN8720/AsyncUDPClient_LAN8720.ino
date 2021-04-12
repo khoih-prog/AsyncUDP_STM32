@@ -1,7 +1,7 @@
 /****************************************************************************************************************************
-  Async_UdpClient.ino
+  Async_UdpClient_LAN8720.ino
 
-  For STM32 with built-in LAN8742A Ethernet (Nucleo-144, DISCOVERY, etc)
+  For STM32 with _LAN8720 or built-in LAN8742A Ethernet (Nucleo-144, DISCOVERY, etc)
 
   AsyncUDP_STM32 is a Async UDP library for the STM32 using built-in LAN8742A Ethernet
 
@@ -17,12 +17,22 @@
                                   Bump up version to v1.1.0 to sync with ESPAsyncUDP v1.1.0
   1.2.0   K Hoang      11/04/2021 Add support to LAN8720 using STM32F4 or STM32F7
  *****************************************************************************************************************************/
+
+#if !( defined(ARDUINO_BLACK_F407VE) || defined(ARDUINO_BLACK_F407VG) || defined(ARDUINO_BLACK_F407ZE) || defined(ARDUINO_BLACK_F407ZG)  || \
+       defined(ARDUINO_BLUE_F407VE_Mini) || defined(ARDUINO_DIYMORE_F407VGT) || defined(ARDUINO_FK407M1) || defined(ARDUINO_NUCLEO_F429ZI) || \
+       defined(ARDUINO_DISCO_F746NG) || defined(ARDUINO_NUCLEO_F746ZG) || defined(ARDUINO_NUCLEO_F756ZG) || defined(ARDUINO_NUCLEO_H743ZI) )
+  #error This code is designed to run on some STM32F407XX NUCLEO-F429ZI, STM32F746 and STM32F756 platform! Please check your Tools->Board setting.
+#endif
+
 #include <Arduino.h>
 
 #define ASYNC_UDP_STM32_DEBUG_PORT      Serial
 
 // Use from 0 to 4. Higher number, more debugging messages and memory usage.
 #define _ASYNC_UDP_STM32_LOGLEVEL_      1
+
+#define USING_LAN8720                   true
+
 
 #include <LwIP.h>
 #include <STM32Ethernet.h>
@@ -88,9 +98,9 @@ void parsePacket(AsyncUDPPacket packet)
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
-
-  Serial.println("\nStart Async_UDPClient on " + String(BOARD_NAME));
+  delay(2000);
+  
+  Serial.println("\nStart Async_UDPClient_LAN8720 on " + String(BOARD_NAME));
   Serial.println(ASYNC_UDP_STM32_VERSION);
 
   // start the ethernet connection and the server

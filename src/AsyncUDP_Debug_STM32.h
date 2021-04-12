@@ -9,14 +9,17 @@
   Built by Khoi Hoang https://github.com/khoih-prog/AsyncUDP_STM32
   Licensed under MIT license
   
-  Version: 1.1.0
+  Version: 1.2.0
   
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
   1.1.0   K Hoang      03/09/2020 Initial coding for STM32 for built-in Ethernet (Nucleo-144, DISCOVERY, etc).
                                   Bump up version to v1.1.0 to sync with ESPAsyncUDP v1.1.0
+  1.2.0   K Hoang      11/04/2021 Add support to LAN8720 using STM32F4 or STM32F7
  *****************************************************************************************************************************/
- 
+
+#pragma once
+
 #ifndef AsyncUDP_Debug_STM32_H
 #define AsyncUDP_Debug_STM32_H
 

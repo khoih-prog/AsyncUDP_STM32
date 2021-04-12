@@ -1,14 +1,14 @@
 /****************************************************************************************************************************
-  AsyncUDPSendReceive.ino
-
+  AsyncUdpNTPClient_LAN8720.ino
+  
   For STM32 with built-in LAN8742A Ethernet (Nucleo-144, DISCOVERY, etc)
-
+  
   AsyncUDP_STM32 is a Async UDP library for the STM32 using built-in LAN8742A Ethernet
-
+  
   Based on and modified from ESPAsyncUDP Library (https://github.com/me-no-dev/ESPAsyncUDP)
   Built by Khoi Hoang https://github.com/khoih-prog/AsyncUDP_STM32
   Licensed under MIT license
-
+  
   Version: 1.2.0
   
   Version Modified By   Date      Comments
@@ -25,8 +25,6 @@ IPAddress timeWindowsCom = IPAddress(13, 86, 101, 172);
 
 #define NTP_REQUEST_PORT      123
 
-char ReplyBuffer[] = "ACK";      // a string to send back
-
 char timeServer[]         = "time.nist.gov";  // NTP server
 
 const int NTP_PACKET_SIZE = 48;       // NTP timestamp is in the first 48 bytes of the message
@@ -35,15 +33,6 @@ byte packetBuffer[NTP_PACKET_SIZE];   // buffer to hold incoming and outgoing pa
 
 // A UDP instance to let us send and receive packets over UDP
 AsyncUDP Udp;
-
-void sendACKPacket(void)
-{
-  Serial.println("============= sendACKPacket =============");
-  
-  // Send unicast ACK to the same remoteIP and remotePort we received the packet
-  // The AsyncUDP_STM32 library will take care of the correct IP and port based on pcb
-  Udp.write((uint8_t *) ReplyBuffer, sizeof(ReplyBuffer));
-}
 
 // send an NTP request to the time server at the given address
 void createNTPpacket(void)
@@ -65,13 +54,6 @@ void createNTPpacket(void)
   packetBuffer[13]  = 0x4E;
   packetBuffer[14]  = 49;
   packetBuffer[15]  = 52;
-}
-
-void sendNTPPacket(void)
-{
-  createNTPpacket();
-  //Send unicast
-  Udp.write(packetBuffer, sizeof(packetBuffer));
 }
 
 void parsePacket(AsyncUDPPacket packet)
@@ -124,17 +106,21 @@ void parsePacket(AsyncUDPPacket packet)
   ts = *localtime(&epoch_t);
   strftime(buf, sizeof(buf), "%a %Y-%m-%d %H:%M:%S %Z", &ts);
   Serial.println(buf);
+}
 
-  // send a reply, to the IP address and port that sent us the packet we received
-  sendACKPacket();
+void sendNTPPacket(void)
+{
+  createNTPpacket();
+  //Send unicast
+  Udp.write(packetBuffer, sizeof(packetBuffer));
 }
 
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
+  delay(2000);
 
-  Serial.println("\nStart AsyncUDPSendReceive on " + String(BOARD_NAME));
+  Serial.println("\nStart AsyncUdpNTPClient_LAN8720 on " + String(BOARD_NAME));
   Serial.println(ASYNC_UDP_STM32_VERSION);
 
   // start the ethernet connection and the server
@@ -149,8 +135,6 @@ void setup()
   // you're connected now, so print out the data
   Serial.print(F("You're connected to the network, IP = "));
   Serial.println(Ethernet.localIP());
-
-  Serial.println(F("\nStarting connection to server..."));
 
   //NTP requests are to port NTP_REQUEST_PORT = 123
   if (Udp.connect(timeWindowsCom, NTP_REQUEST_PORT))

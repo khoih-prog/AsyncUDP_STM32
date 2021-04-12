@@ -1,5 +1,5 @@
 /****************************************************************************************************************************
-  Async_UdpClient.ino
+  AsyncUDPMulticastServer_LAN8720.ino
 
   For STM32 with built-in LAN8742A Ethernet (Nucleo-144, DISCOVERY, etc)
 
@@ -17,6 +17,24 @@
                                   Bump up version to v1.1.0 to sync with ESPAsyncUDP v1.1.0
   1.2.0   K Hoang      11/04/2021 Add support to LAN8720 using STM32F4 or STM32F7
  *****************************************************************************************************************************/
+/****************************************************************************************************************************
+  KH, you have to modify line 1070 of "lwip/opt.h" in STM32duino_LwIP library to use multicast feature
+  From #define LWIP_IGMP     0
+  to   #define LWIP_IGMP     1
+  
+  Otherwise, you'll get error "undefined reference to `igmp_joingroup(ip4_addr const*, ip4_addr const*)`
+  
+  Just old design not permitting the definitions here to affect deeply into underlying files
+  Even #define LWIP_IPV4         1 and #define LWIP_IGMP         1
+  didn't solve the issue
+ *****************************************************************************************************************************/
+
+#if !( defined(ARDUINO_BLACK_F407VE) || defined(ARDUINO_BLACK_F407VG) || defined(ARDUINO_BLACK_F407ZE) || defined(ARDUINO_BLACK_F407ZG)  || \
+       defined(ARDUINO_BLUE_F407VE_Mini) || defined(ARDUINO_DIYMORE_F407VGT) || defined(ARDUINO_FK407M1) || defined(ARDUINO_NUCLEO_F429ZI) || \
+       defined(ARDUINO_DISCO_F746NG) || defined(ARDUINO_NUCLEO_F746ZG) || defined(ARDUINO_NUCLEO_F756ZG) || defined(ARDUINO_NUCLEO_H743ZI) )
+  #error This code is designed to run on some STM32F407XX NUCLEO-F429ZI, STM32F746 and STM32F756 platform! Please check your Tools->Board setting.
+#endif
+
 #include <Arduino.h>
 
 #define ASYNC_UDP_STM32_DEBUG_PORT      Serial
@@ -24,14 +42,12 @@
 // Use from 0 to 4. Higher number, more debugging messages and memory usage.
 #define _ASYNC_UDP_STM32_LOGLEVEL_      1
 
+#define USING_LAN8720                   true
+
 #include <LwIP.h>
 #include <STM32Ethernet.h>
 
 #include <AsyncUDP_STM32.h>
-
-IPAddress remoteIPAddress = IPAddress(192, 168, 2, 112);
-
-#define UDP_REMOTE_PORT         5698
 
 // Enter a MAC address and IP address for your controller below.
 #define NUMBER_OF_MAC      20
@@ -88,9 +104,9 @@ void parsePacket(AsyncUDPPacket packet)
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
-
-  Serial.println("\nStart Async_UDPClient on " + String(BOARD_NAME));
+  delay(2000);
+  
+  Serial.println("\nStart AsyncUDPMulticastServer_LAN8720 on " + String(BOARD_NAME));
   Serial.println(ASYNC_UDP_STM32_VERSION);
 
   // start the ethernet connection and the server
@@ -102,26 +118,25 @@ void setup()
   // Use DHCP dynamic IP and random mac
   Ethernet.begin(mac[index]);
 
-  Serial.print(F("IP : "));
-  Serial.println(Ethernet.localIP());
 
-  if (udp.connect(remoteIPAddress, UDP_REMOTE_PORT))
+  if (udp.listenMulticast(IPAddress(239, 1, 2, 3), 1234))
   {
-    Serial.println("UDP connected");
+    Serial.print("UDP Listening on IP: ");
+    Serial.println(Ethernet.localIP());
 
     udp.onPacket([](AsyncUDPPacket packet)
     {
-      parsePacket( packet);
+      parsePacket(packet);
     });
 
-    //Send unicast
-    udp.print("Hello Server!");
+    //Send multicast
+    udp.print("Hello!");
   }
 }
 
 void loop()
 {
-  delay(10000);
-  //Send broadcast on port UDP_REMOTE_PORT = 1234
-  udp.broadcastTo("Anyone here?", UDP_REMOTE_PORT);
+  delay(1000);
+  //Send multicast
+  udp.print("Anyone here?");
 }

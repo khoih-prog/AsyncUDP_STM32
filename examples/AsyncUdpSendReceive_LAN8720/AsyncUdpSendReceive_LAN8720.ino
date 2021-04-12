@@ -1,5 +1,5 @@
 /****************************************************************************************************************************
-  AsyncUDPSendReceive.ino
+  AsyncUDPSendReceive_LAN8720.ino
 
   For STM32 with built-in LAN8742A Ethernet (Nucleo-144, DISCOVERY, etc)
 
@@ -132,9 +132,9 @@ void parsePacket(AsyncUDPPacket packet)
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
+  delay(2000);
 
-  Serial.println("\nStart AsyncUDPSendReceive on " + String(BOARD_NAME));
+  Serial.println("\nStart AsyncUDPSendReceive_LAN8720 on " + String(BOARD_NAME));
   Serial.println(ASYNC_UDP_STM32_VERSION);
 
   // start the ethernet connection and the server
