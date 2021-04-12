@@ -18,7 +18,7 @@
   * [Why Async is better](#why-async-is-better)
   * [Currently supported Boards](#currently-supported-boards)
 * [Changelog](#changelog)
-  * [Releases v1.2.0](#releases-v130)
+  * [Releases v1.2.0](#releases-v120)
   * [Initial Releases v1.1.0](#initial-releases-v110)
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
@@ -64,7 +64,7 @@
 ---
 ---
 
-### Why do we need this Async [AsyncUDP_STM32 library](https://github.com/khoih-prog/AsyncUDP_STM32)
+### Why do we need this [AsyncUDP_STM32 library](https://github.com/khoih-prog/AsyncUDP_STM32)
 
 #### Features
 
