@@ -9,23 +9,28 @@
   Built by Khoi Hoang https://github.com/khoih-prog/AsyncUDP_STM32
   Licensed under MIT license
   
-  Version: 1.2.0
+  Version: 1.2.1
   
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
   1.1.0   K Hoang      03/09/2020 Initial coding for STM32 for built-in Ethernet (Nucleo-144, DISCOVERY, etc).
                                   Bump up version to v1.1.0 to sync with ESPAsyncUDP v1.1.0
   1.2.0   K Hoang      11/04/2021 Add support to LAN8720 using STM32F4 or STM32F7
+  1.2.1   K Hoang      09/10/2021 Update `platform.ini` and `library.json` 
  *****************************************************************************************************************************/
 
 #include "defines.h"
 #include <time.h>
 
-IPAddress timeWindowsCom = IPAddress(13, 86, 101, 172);
+// 0.ca.pool.ntp.org
+IPAddress timeServerIP = IPAddress(208, 81, 1, 244);
+// time.nist.gov
+//IPAddress timeServerIP = IPAddress(132, 163, 96, 1);
 
 #define NTP_REQUEST_PORT      123
 
-char timeServer[]         = "time.nist.gov";  // NTP server
+//char timeServer[] = "time.nist.gov";  // NTP server
+char timeServer[] = "0.ca.pool.ntp.org";
 
 const int NTP_PACKET_SIZE = 48;       // NTP timestamp is in the first 48 bytes of the message
 
@@ -137,7 +142,8 @@ void setup()
   Serial.println(Ethernet.localIP());
 
   //NTP requests are to port NTP_REQUEST_PORT = 123
-  if (Udp.connect(timeWindowsCom, NTP_REQUEST_PORT))
+  if (Udp.connect(timeServerIP, NTP_REQUEST_PORT))
+  //if (Udp.connect(timeServer, NTP_REQUEST_PORT))
   {
     Serial.println("UDP connected");
 

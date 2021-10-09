@@ -17,9 +17,6 @@
   * [Features](#features)
   * [Why Async is better](#why-async-is-better)
   * [Currently supported Boards](#currently-supported-boards)
-* [Changelog](#changelog)
-  * [Releases v1.2.0](#releases-v120)
-  * [Initial Releases v1.1.0](#initial-releases-v110)
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
   * [Use Arduino Library Manager](#use-arduino-library-manager)
@@ -52,7 +49,6 @@
   * [2. AsyncUdpNTPClient_LAN8720 on STM32F4 BLACK_F407VE with LAN8720 Ethernet using STM32Ethernet Library](#2-asyncudpntpclient_lan8720-on-stm32f4-black_f407ve-with-lan8720-ethernet-using-stm32ethernet-library)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
-* [Releases](#releases)
 * [Issues](#issues)
 * [TO DO](#to-do)
 * [DONE](#done)
@@ -105,30 +101,10 @@ to apply the better and faster **asynchronous** feature of the **powerful** [ESP
 ---
 ---
 
-## Changelog
-
-### Releases v1.2.0
-
-1. Add support to **LAN8720** Ethernet for many **STM32F4** (F407xx, NUCLEO_F429ZI) and **STM32F7** (DISCO_F746NG, NUCLEO_F746ZG, NUCLEO_F756ZG) boards.
-2. Add LAN8720 examples
-3. Add Packages' Patches for STM32 to use LAN8720 with STM32Ethernet and LwIP libraries
-4. Add Table-of-Contents
-
-### Initial Releases v1.1.0
-
-1. Initial coding to port [ESPAsyncUDP](https://github.com/me-no-dev/ESPAsyncUDP) to STM32 boards using builtin LAN8742A Ethernet. More supports will be added gradually later, such as other Ethernet / WiFi shields.
-2. Add more examples.
-3. Add debugging features.
-4. Bump up to v1.1.0 to sync with [ESPAsyncUDP v1.1.0](https://github.com/me-no-dev/ESPAsyncUDP).
-
-
----
----
-
 ## Prerequisites
 
- 1. [`Arduino IDE 1.8.13+` for Arduino](https://www.arduino.cc/en/Main/Software)
- 2. [`Arduino Core for STM32 v1.9.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
+ 1. [`Arduino IDE 1.8.16+`](https://www.arduino.cc/en/Main/Software)
+ 2. [`Arduino Core for STM32 v2.1.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
  3. [`STM32Ethernet library v1.2.0+`](https://github.com/stm32duino/STM32Ethernet) for built-in LAN8742A Ethernet on (Nucleo-144, Discovery). [![GitHub release](https://img.shields.io/github/release/stm32duino/STM32Ethernet.svg)](https://github.com/stm32duino/STM32Ethernet/releases/latest)
  4. [`LwIP library v2.1.2+`](https://github.com/stm32duino/LwIP) for built-in LAN8742A Ethernet on (Nucleo-144, Discovery). [![GitHub release](https://img.shields.io/github/release/stm32duino/LwIP.svg)](https://github.com/stm32duino/LwIP/releases/latest)
  
@@ -613,7 +589,7 @@ This is terminal debug output when running [AsyncUdpNTPClient](examples/AsyncUdp
 
 ```
 Start AsyncUdpNTPClient on NUCLEO_F767ZI
-AsyncUdp_STM32 v1.2.0
+AsyncUdp_STM32 v1.2.1
 You're connected to the network, IP = 192.168.2.187
 UDP connected
 
@@ -648,7 +624,7 @@ This is terminal debug output when running [AsyncUdpNTPClient_LAN8720](examples/
 
 ```
 Start AsyncUdpNTPClient_LAN8720 on BLACK_F407VE
-AsyncUdp_STM32 v1.2.0
+AsyncUdp_STM32 v1.2.1
 You're connected to the network, IP = 192.168.2.151
 UDP connected
 ============= createNTPpacket =============
@@ -706,42 +682,6 @@ Sometimes, the library will only work if you update the `STM32` core to the late
 ---
 ---
 
-## Releases
-
-### Releases v1.2.0
-
-1. Add support to **LAN8720** Ethernet for many **STM32F4** (F407xx, NUCLEO_F429ZI) and **STM32F7** (DISCO_F746NG, NUCLEO_F746ZG, NUCLEO_F756ZG) boards.
-2. Add LAN8720 examples
-3. Add Packages' Patches for STM32 to use LAN8720 with STM32Ethernet and LwIP libraries
-4. Add Table-of-Contents
-
-### Initial Releases v1.1.0
-
-1. Initial coding to port [ESPAsyncUDP](https://github.com/me-no-dev/ESPAsyncUDP) to STM32 boards using builtin LAN8742A Ethernet. More supports will be added gradually later, such as other Ethernet / WiFi shields.
-2. Add more examples.
-3. Add debugging features.
-4. Bump up to v1.1.0 to sync with [ESPAsyncUDP v1.1.0](https://github.com/me-no-dev/ESPAsyncUDP).
-
----
-
-#### Supported Boards
-
-1. **STM32 boards with built-in Ethernet LAN8742A** such as :
-
-  - **Nucleo-144 (F429ZI, F767ZI)**
-  - **Discovery (STM32F746G-DISCOVERY)**
-  - **All STM32 boards (STM32F/L/H/G/WB/MP1) with 32K+ Flash, with Built-in Ethernet**
-  - See [EthernetWebServer_STM32 Support and Test Results](https://github.com/khoih-prog/EthernetWebServer_STM32/issues/1)
-  
-2. **STM32 boards using Ethernet LAN8720** such as :
-
-  - **Nucleo-144 (F429ZI, NUCLEO_F746NG, NUCLEO_F746ZG, NUCLEO_F756ZG)**
-  - **Discovery (DISCO_F746NG)**
-  - **STM32F4 boards (BLACK_F407VE, BLACK_F407VG, BLACK_F407ZE, BLACK_F407ZG, BLACK_F407VE_Mini, DIYMORE_F407VGT, FK407M1)**
-
-
----
----
 
 ### Issues ###
 
