@@ -71,6 +71,7 @@
 
 Please have a look at [HOWTO Fix `Multiple Definitions` Linker Error](#howto-fix-multiple-definitions-linker-error)
 
+For `Generic STM32F4 series` boards, such as STM32F407VE, using LAN8720, please use STM32 core v2.2.0 as breaking core v2.3.0 creates the compile error. Will fix in the near future.
 
 ---
 ---
