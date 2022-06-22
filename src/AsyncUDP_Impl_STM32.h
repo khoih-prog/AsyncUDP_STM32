@@ -9,7 +9,7 @@
   Built by Khoi Hoang https://github.com/khoih-prog/AsyncUDP_STM32
   Licensed under MIT license
   
-  Version: 1.2.1
+  Version: 1.3.0
   
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -17,12 +17,15 @@
                                   Bump up version to v1.1.0 to sync with ESPAsyncUDP v1.1.0
   1.2.0   K Hoang      11/04/2021 Add support to LAN8720 using STM32F4 or STM32F7
   1.2.1   K Hoang      09/10/2021 Update `platform.ini` and `library.json`
+  1.3.0   K Hoang      21/06/2022 Fix multiple-definitions linker error. Update for STM32 core v2.3.0 
  *****************************************************************************************************************************/
 
 #pragma once
 
 #ifndef ASYNCUDP_IMPL_STM32_H
 #define ASYNCUDP_IMPL_STM32_H
+
+/////////////////////////////////////////////////////////////////////////////
 
 AsyncUDPMessage::AsyncUDPMessage(size_t size)
 {
@@ -37,6 +40,8 @@ AsyncUDPMessage::AsyncUDPMessage(size_t size)
   _buffer = (uint8_t *)malloc(size);
 }
 
+///////////////////////////////////////////////////
+
 AsyncUDPMessage::~AsyncUDPMessage()
 {
   if (_buffer) 
@@ -44,6 +49,8 @@ AsyncUDPMessage::~AsyncUDPMessage()
     free(_buffer);
   }
 }
+
+///////////////////////////////////////////////////
 
 size_t AsyncUDPMessage::write(const uint8_t *data, size_t len)
 {
@@ -65,10 +72,14 @@ size_t AsyncUDPMessage::write(const uint8_t *data, size_t len)
   return len;
 }
 
+///////////////////////////////////////////////////
+
 size_t AsyncUDPMessage::write(uint8_t data)
 {
   return write(&data, 1);
 }
+
+///////////////////////////////////////////////////
 
 size_t AsyncUDPMessage::space()
 {
@@ -95,6 +106,7 @@ void AsyncUDPMessage::flush()
   _index = 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////
 
 AsyncUDPPacket::AsyncUDPPacket(AsyncUDP *udp, ip_addr_t *localIp, uint16_t localPort, ip_addr_t *remoteIp, 
                                 uint16_t remotePort, uint8_t *data, size_t len)
@@ -108,67 +120,91 @@ AsyncUDPPacket::AsyncUDPPacket(AsyncUDP *udp, ip_addr_t *localIp, uint16_t local
   _len = len;
 }
 
+///////////////////////////////////////////////////
+
 AsyncUDPPacket::~AsyncUDPPacket()
 {
 
 }
+
+///////////////////////////////////////////////////
 
 uint8_t * AsyncUDPPacket::data()
 {
   return _data;
 }
 
+///////////////////////////////////////////////////
+
 size_t AsyncUDPPacket::length()
 {
   return _len;
 }
+
+///////////////////////////////////////////////////
 
 IPAddress AsyncUDPPacket::localIP()
 {
   return IPAddress(_localIp->addr);
 }
 
+///////////////////////////////////////////////////
+
 uint16_t AsyncUDPPacket::localPort()
 {
   return _localPort;
 }
+
+///////////////////////////////////////////////////
 
 IPAddress AsyncUDPPacket::remoteIP()
 {
   return IPAddress(_remoteIp->addr);
 }
 
+///////////////////////////////////////////////////
+
 uint16_t AsyncUDPPacket::remotePort()
 {
   return _remotePort;
 }
+
+///////////////////////////////////////////////////
 
 bool AsyncUDPPacket::isBroadcast()
 {
   return _localIp->addr == 0xFFFFFFFF || _localIp->addr == (uint32_t)(0);
 }
 
+///////////////////////////////////////////////////
+
 bool AsyncUDPPacket::isMulticast()
 {
   return ip_addr_ismulticast(_localIp);
 }
+
+///////////////////////////////////////////////////
 
 size_t AsyncUDPPacket::write(const uint8_t *data, size_t len)
 {
   return _udp->writeTo(data, len, _remoteIp, _remotePort);
 }
 
+///////////////////////////////////////////////////
+
 size_t AsyncUDPPacket::write(uint8_t data)
 {
   return write(&data, 1);
 }
+
+///////////////////////////////////////////////////
 
 size_t AsyncUDPPacket::send(AsyncUDPMessage &message)
 {
   return write(message.data(), message.length());
 }
 
-//////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 AsyncUDP::AsyncUDP()
 {
@@ -177,30 +213,42 @@ AsyncUDP::AsyncUDP()
   _handler = NULL;
 }
 
+///////////////////////////////////////////////////
+
 AsyncUDP::~AsyncUDP()
 {
   close();
 }
+
+///////////////////////////////////////////////////
 
 AsyncUDP::operator bool()
 {
   return _connected;
 }
 
+///////////////////////////////////////////////////
+
 bool AsyncUDP::connected()
 {
   return _connected;
 }
+
+///////////////////////////////////////////////////
 
 void AsyncUDP::onPacket(AuPacketHandlerFunctionWithArg cb, void * arg)
 {
   onPacket(std::bind(cb, arg, std::placeholders::_1));
 }
 
+///////////////////////////////////////////////////
+
 void AsyncUDP::onPacket(AuPacketHandlerFunction cb)
 {
   _handler = cb;
 }
+
+///////////////////////////////////////////////////
 
 void AsyncUDP::_recv(udp_pcb *upcb, pbuf *pb, ip_addr_t *addr, uint16_t port)
 {
@@ -240,6 +288,8 @@ void AsyncUDP::_recv(udp_pcb *upcb, pbuf *pb, ip_addr_t *addr, uint16_t port)
   }
 }
 
+///////////////////////////////////////////////////
+
 #if LWIP_VERSION_MAJOR == 1
 void AsyncUDP::_s_recv(void *arg, udp_pcb *upcb, pbuf *p, ip_addr_t *addr, uint16_t port)
 #else
@@ -248,6 +298,8 @@ void AsyncUDP::_s_recv(void *arg, udp_pcb *upcb, pbuf *p, const ip_addr_t *addr,
 {
   reinterpret_cast<AsyncUDP*>(arg)->_recv(upcb, p, (ip_addr_t *)addr, port);
 }
+
+///////////////////////////////////////////////////
 
 bool AsyncUDP::listen(ip_addr_t *addr, uint16_t port)
 {
@@ -277,6 +329,8 @@ bool AsyncUDP::listen(ip_addr_t *addr, uint16_t port)
   
   return true;
 }
+
+///////////////////////////////////////////////////
 
 bool AsyncUDP::listenMulticast(ip_addr_t *addr, uint16_t port, uint8_t ttl)
 {
@@ -331,6 +385,8 @@ bool AsyncUDP::listenMulticast(ip_addr_t *addr, uint16_t port, uint8_t ttl)
   return true;
 }
 
+///////////////////////////////////////////////////
+
 bool AsyncUDP::connect(ip_addr_t *addr, uint16_t port)
 {
   close();
@@ -361,6 +417,8 @@ bool AsyncUDP::connect(ip_addr_t *addr, uint16_t port)
   return true;
 }
 
+///////////////////////////////////////////////////
+
 void AsyncUDP::close()
 {
   if (_pcb != NULL) 
@@ -375,6 +433,8 @@ void AsyncUDP::close()
     _pcb = NULL;
   }
 }
+
+///////////////////////////////////////////////////
 
 size_t AsyncUDP::writeTo(const uint8_t *data, size_t len, ip_addr_t *addr, uint16_t port)
 {
@@ -412,6 +472,8 @@ size_t AsyncUDP::writeTo(const uint8_t *data, size_t len, ip_addr_t *addr, uint1
   return 0;
 }
 
+///////////////////////////////////////////////////
+
 bool AsyncUDP::listen(const IPAddress addr, uint16_t port)
 {
   ip_addr_t laddr;
@@ -419,10 +481,14 @@ bool AsyncUDP::listen(const IPAddress addr, uint16_t port)
   return listen(&laddr, port);
 }
 
+///////////////////////////////////////////////////
+
 bool AsyncUDP::listen(uint16_t port)
 {
   return listen(IPAddress((uint32_t)INADDR_ANY), port);
 }
+
+///////////////////////////////////////////////////
 
 bool AsyncUDP::listenMulticast(const IPAddress addr, uint16_t port, uint8_t ttl)
 {
@@ -432,6 +498,8 @@ bool AsyncUDP::listenMulticast(const IPAddress addr, uint16_t port, uint8_t ttl)
   return listenMulticast(&laddr, port, ttl);
 }
 
+///////////////////////////////////////////////////
+
 bool AsyncUDP::connect(const IPAddress addr, uint16_t port)
 {
   ip_addr_t daddr;
@@ -440,6 +508,8 @@ bool AsyncUDP::connect(const IPAddress addr, uint16_t port)
   return connect(&daddr, port);
 }
 
+///////////////////////////////////////////////////
+
 size_t AsyncUDP::writeTo(const uint8_t *data, size_t len, const IPAddress addr, uint16_t port)
 {
   ip_addr_t daddr;
@@ -447,6 +517,8 @@ size_t AsyncUDP::writeTo(const uint8_t *data, size_t len, const IPAddress addr, 
   
   return writeTo(data, len, &daddr, port);
 }
+
+///////////////////////////////////////////////////
 
 size_t AsyncUDP::write(const uint8_t *data, size_t len)
 {
@@ -460,10 +532,14 @@ size_t AsyncUDP::write(const uint8_t *data, size_t len)
   return 0;
 }
 
+///////////////////////////////////////////////////
+
 size_t AsyncUDP::write(uint8_t data)
 {
   return write(&data, 1);
 }
+
+///////////////////////////////////////////////////
 
 size_t AsyncUDP::broadcastTo(uint8_t *data, size_t len, uint16_t port)
 {
@@ -473,10 +549,14 @@ size_t AsyncUDP::broadcastTo(uint8_t *data, size_t len, uint16_t port)
   return writeTo(data, len, &daddr, port);
 }
 
+///////////////////////////////////////////////////
+
 size_t AsyncUDP::broadcastTo(const char * data, uint16_t port)
 {
   return broadcastTo((uint8_t *)data, strlen(data), port);
 }
+
+///////////////////////////////////////////////////
 
 size_t AsyncUDP::broadcast(uint8_t *data, size_t len)
 {
@@ -490,11 +570,14 @@ size_t AsyncUDP::broadcast(uint8_t *data, size_t len)
   return 0;
 }
 
+///////////////////////////////////////////////////
+
 size_t AsyncUDP::broadcast(const char * data)
 {
   return broadcast((uint8_t *)data, strlen(data));
 }
 
+///////////////////////////////////////////////////
 
 size_t AsyncUDP::sendTo(AsyncUDPMessage &message, ip_addr_t *addr, uint16_t port)
 {
@@ -508,6 +591,8 @@ size_t AsyncUDP::sendTo(AsyncUDPMessage &message, ip_addr_t *addr, uint16_t port
   return writeTo(message.data(), message.length(), addr, port);
 }
 
+///////////////////////////////////////////////////
+
 size_t AsyncUDP::sendTo(AsyncUDPMessage &message, const IPAddress addr, uint16_t port)
 {
   if (!message) 
@@ -519,6 +604,8 @@ size_t AsyncUDP::sendTo(AsyncUDPMessage &message, const IPAddress addr, uint16_t
   
   return writeTo(message.data(), message.length(), addr, port);
 }
+
+///////////////////////////////////////////////////
 
 size_t AsyncUDP::send(AsyncUDPMessage &message)
 {
@@ -532,6 +619,8 @@ size_t AsyncUDP::send(AsyncUDPMessage &message)
   return writeTo(message.data(), message.length(), &(_pcb->remote_ip), _pcb->remote_port);
 }
 
+///////////////////////////////////////////////////
+
 size_t AsyncUDP::broadcastTo(AsyncUDPMessage &message, uint16_t port)
 {
   if (!message) 
@@ -544,6 +633,8 @@ size_t AsyncUDP::broadcastTo(AsyncUDPMessage &message, uint16_t port)
   return broadcastTo(message.data(), message.length(), port);
 }
 
+///////////////////////////////////////////////////
+
 size_t AsyncUDP::broadcast(AsyncUDPMessage &message)
 {
   if (!message) 
@@ -555,5 +646,7 @@ size_t AsyncUDP::broadcast(AsyncUDPMessage &message)
   
   return broadcast(message.data(), message.length());
 }
+
+///////////////////////////////////////////////////
 
 #endif    // ASYNCUDP_IMPL_STM32_H

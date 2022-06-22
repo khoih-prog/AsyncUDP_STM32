@@ -1,6 +1,6 @@
 {
   "name":"AsyncUDP_STM32",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description":"Fully Asynchronous UDP Library for STM32 using LAN8720 or built-in LAN8742A Ethernet. The library is easy to use and includes support for Unicast, Broadcast and Multicast environments.",
   "keywords":"communication, data, async, udp, ntp, time, time-server, server, client, multicast, broadcast, webserver, stm32, stm32f, stm32l, stm32h, stm32g, stm32wb, stm32mp1, ST STM32, bluepill, blackpill, ethernet, lan8742a, lan8720, stm32f7, stm32f4, f407ve, nucleo, nucleo-144",
   "authors": 
@@ -21,8 +21,14 @@
     "type": "git",
     "url": "https://github.com/khoih-prog/AsyncUDP_STM32"
   },
-  "license": "MIT",
-  "frameworks": "arduino",
+  "homepage": "https://github.com/khoih-prog/AsyncUDP_STM32",
+  "export": {
+    "exclude": [
+      "linux",
+      "extras",
+      "tests"
+    ]
+  },
   "dependencies": 
   [
     {
@@ -34,9 +40,13 @@
     {
       "owner": "stm32duino",
       "name": "STM32Ethernet",
-      "version": "^1.2.0",
+      "version": "^1.3.0",
       "platforms": "ststm32"
     }
   ],
-  "platforms": ["ststm32"]
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": ["ststm32"],
+  "examples": "examples/*/*/*.ino",
+  "headers": [ "AsyncUDP_STM32.h", "AsyncUDP_STM32.hpp" ]
 }

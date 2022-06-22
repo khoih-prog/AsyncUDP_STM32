@@ -14,6 +14,7 @@
 
 
 * [Changelog](#changelog)
+  * [Releases v1.3.0](#releases-v130)
   * [Releases v1.2.1](#releases-v121)
   * [Releases v1.2.0](#releases-v120)
   * [Initial Releases v1.1.0](#initial-releases-v110)
@@ -22,6 +23,13 @@
 ---
 
 ## Changelog
+
+### Releases v1.3.0
+
+1. Fix multiple-definitions linker error. 
+2. Update examples for new STM32 core v2.3.0 
+3. Add example [multiFileProject](examples/multiFileProject) and [multiFileProject_LAN8720](examples/multiFileProject_LAN8720) to demo for multiple-file project to avoid `multiple-definitions` linker error
+4. Update `Packages' Patches`
 
 ### Releases v1.2.1
 

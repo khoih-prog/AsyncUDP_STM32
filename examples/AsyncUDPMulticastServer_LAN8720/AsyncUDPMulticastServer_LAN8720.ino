@@ -8,15 +8,6 @@
   Based on and modified from ESPAsyncUDP Library (https://github.com/me-no-dev/ESPAsyncUDP)
   Built by Khoi Hoang https://github.com/khoih-prog/AsyncUDP_STM32
   Licensed under MIT license
-
-  Version: 1.2.1
-  
-  Version Modified By   Date      Comments
-  ------- -----------  ---------- -----------
-  1.1.0   K Hoang      03/09/2020 Initial coding for STM32 for built-in Ethernet (Nucleo-144, DISCOVERY, etc).
-                                  Bump up version to v1.1.0 to sync with ESPAsyncUDP v1.1.0
-  1.2.0   K Hoang      11/04/2021 Add support to LAN8720 using STM32F4 or STM32F7
-  1.2.1   K Hoang      09/10/2021 Update `platform.ini` and `library.json` 
  *****************************************************************************************************************************/
 /****************************************************************************************************************************
   KH, you have to modify line 1070 of "lwip/opt.h" in STM32duino_LwIP library to use multicast feature
@@ -109,6 +100,12 @@ void setup()
   
   Serial.println("\nStart AsyncUDPMulticastServer_LAN8720 on " + String(BOARD_NAME));
   Serial.println(ASYNC_UDP_STM32_VERSION);
+
+#if (_ASYNC_UDP_STM32_LOGLEVEL_ > 2)
+  Serial.print("STM32 Core version v"); Serial.print(STM32_CORE_VERSION_MAJOR);
+  Serial.print("."); Serial.print(STM32_CORE_VERSION_MINOR); 
+  Serial.print("."); Serial.println(STM32_CORE_VERSION_PATCH);
+#endif
 
   // start the ethernet connection and the server
   // Use random mac

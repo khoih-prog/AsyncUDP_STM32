@@ -8,13 +8,6 @@
   Based on and modified from ESPAsyncUDP Library (https://github.com/me-no-dev/ESPAsyncUDP)
   Built by Khoi Hoang https://github.com/khoih-prog/AsyncUDP_STM32
   Licensed under MIT license
-  
-  Version: 1.1.0
-  
-  Version Modified By   Date      Comments
-  ------- -----------  ---------- -----------
-  1.1.0   K Hoang      03/09/2020 Initial coding for STM32 for built-in Ethernet (Nucleo-144, DISCOVERY, etc).
-                                  Bump up version to v1.1.0 to sync with ESPAsyncUDP v1.1.0
  *****************************************************************************************************************************/
 /*
    Currently support
