@@ -144,7 +144,7 @@ The best way is to use `Arduino Library Manager`. Search for `AsyncUDP_STM32`, t
 
 1. Install [VS Code](https://code.visualstudio.com/)
 2. Install [PlatformIO](https://platformio.org/platformio-ide)
-3. Install [**AsyncUDP_STM32** library](https://registry.platformio.org/libraries/AsyncUDP_STM32) by using [Library Manager](https://registry.platformio.org/libraries/AsyncUDP_STM32/installation). Search for AsyncUDP_STM32 in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
+3. Install [**AsyncUDP_STM32** library](https://registry.platformio.org/libraries/khoih-prog/AsyncUDP_STM32) by using [Library Manager](https://registry.platformio.org/libraries/khoih-prog/AsyncUDP_STM32/installation). Search for AsyncUDP_STM32 in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
 4. Use included [platformio.ini](platformio/platformio.ini) file from examples to ensure that all dependent libraries will installed automatically. Please visit documentation for the other options and examples at [Project Configuration File](https://docs.platformio.org/page/projectconf.html)
 
 ---
