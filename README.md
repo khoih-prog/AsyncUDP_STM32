@@ -7,15 +7,16 @@
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#Contributing)
 [![GitHub issues](https://img.shields.io/github/issues/khoih-prog/AsyncUDP_STM32.svg)](http://github.com/khoih-prog/AsyncUDP_STM32/issues)
 
-<a href="https://www.buymeacoffee.com/khoihprog6" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Donate to my libraries using BuyMeACoffee" style="height: 50px !important;width: 181px !important;" ></a>
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg?logo=buy-me-a-coffee&logoColor=FFDD00" style="height: 20px !important;width: 200px !important;" ></a>
 
 ---
 ---
 
 ## Table of Contents
 
-
+* [Important Change from v1.3.0](#Important-Change-from-v130)
 * [Why do we need this AsyncUDP_STM32 library](#why-do-we-need-this-asyncudp_stm32-library)
   * [Features](#features)
   * [Why Async is better](#why-async-is-better)
@@ -27,7 +28,8 @@
   * [VS Code & PlatformIO](#vs-code--platformio)
 * [Packages' Patches](#packages-patches)
   * [1. For STM32 boards to use LAN8720](#1-for-stm32-boards-to-use-lan8720)
-  * [2. For STM32 boards to use Serial1](#2-for-stm32-boards-to-use-serial1) 
+  * [2. For STM32 boards to use Serial1](#2-for-stm32-boards-to-use-serial1)
+* [HOWTO Fix `Multiple Definitions` Linker Error](#howto-fix-multiple-definitions-linker-error)
 * [HOWTO Setting up the Async UDP Client](#howto-setting-up-the-async-udp-client)
 * [HOWTO use STM32F4 with LAN8720](#howto-use-stm32f4-with-lan8720)
   * [1. Wiring](#1-wiring)
@@ -44,6 +46,8 @@
   * [ 8. AsyncUdpSendReceive_LAN8720](examples/AsyncUdpSendReceive_LAN8720)
   * [ 9. AsyncUDPServer_LAN8720](examples/AsyncUDPServer_LAN8720)
   * [10. AsyncUDPMulticastServer_LAN8720](examples/AsyncUDPMulticastServer_LAN8720)
+  * [11. **multiFileProject**](examples/multiFileProject) **New**
+  * [12. **multiFileProject_LAN8720**](examples/multiFileProject_LAN8720) **New**
 * [Example AsyncUdpNTPClient](#example-asyncudpntpclient)
   * [1. File AsyncUdpNTPClient.ino](#1-file-asyncudpntpclientino)
   * [2. File defines.h](#2-file-definesh) 
@@ -59,6 +63,14 @@
 * [Contributing](#contributing)
 * [License](#license)
 * [Copyright](#copyright)
+
+---
+---
+
+### Important Change from v1.3.0
+
+Please have a look at [HOWTO Fix `Multiple Definitions` Linker Error](#howto-fix-multiple-definitions-linker-error)
+
 
 ---
 ---
@@ -106,9 +118,9 @@ to apply the better and faster **asynchronous** feature of the **powerful** [ESP
 
 ## Prerequisites
 
- 1. [`Arduino IDE 1.8.16+`](https://www.arduino.cc/en/Main/Software)
- 2. [`Arduino Core for STM32 v2.1.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
- 3. [`STM32Ethernet library v1.2.0+`](https://github.com/stm32duino/STM32Ethernet) for built-in LAN8742A Ethernet on (Nucleo-144, Discovery). [![GitHub release](https://img.shields.io/github/release/stm32duino/STM32Ethernet.svg)](https://github.com/stm32duino/STM32Ethernet/releases/latest)
+ 1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
+ 2. [`Arduino Core for STM32 v2.3.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
+ 3. [`STM32Ethernet library v1.3.0+`](https://github.com/stm32duino/STM32Ethernet) for built-in LAN8742A Ethernet on (Nucleo-144, Discovery). [![GitHub release](https://img.shields.io/github/release/stm32duino/STM32Ethernet.svg)](https://github.com/stm32duino/STM32Ethernet/releases/latest)
  4. [`LwIP library v2.1.2+`](https://github.com/stm32duino/LwIP) for built-in LAN8742A Ethernet on (Nucleo-144, Discovery). [![GitHub release](https://img.shields.io/github/release/stm32duino/LwIP.svg)](https://github.com/stm32duino/LwIP/releases/latest)
  
 ---
@@ -132,7 +144,7 @@ The best way is to use `Arduino Library Manager`. Search for `AsyncUDP_STM32`, t
 
 1. Install [VS Code](https://code.visualstudio.com/)
 2. Install [PlatformIO](https://platformio.org/platformio-ide)
-3. Install [**AsyncUDP_STM32** library](https://platformio.org/lib/show/11236/AsyncUDP_STM32) by using [Library Manager](https://platformio.org/lib/show/11236/AsyncUDP_STM32/installation). Search for AsyncUDP_STM32 in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
+3. Install [**AsyncUDP_STM32** library](https://registry.platformio.org/libraries/AsyncUDP_STM32) by using [Library Manager](https://registry.platformio.org/libraries/AsyncUDP_STM32/installation). Search for AsyncUDP_STM32 in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
 4. Use included [platformio.ini](platformio/platformio.ini) file from examples to ensure that all dependent libraries will installed automatically. Please visit documentation for the other options and examples at [Project Configuration File](https://docs.platformio.org/page/projectconf.html)
 
 ---
@@ -148,12 +160,12 @@ To use LAN8720 on some STM32 boards
 - **Discovery (DISCO_F746NG)**
 - **STM32F4 boards (BLACK_F407VE, BLACK_F407VG, BLACK_F407ZE, BLACK_F407ZG, BLACK_F407VE_Mini, DIYMORE_F407VGT, FK407M1)**
 
-you have to copy the files [stm32f4xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/1.9.0/system/STM32F4xx) and [stm32f7xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/1.9.0/system/STM32F7xx) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/1.9.0/system) to overwrite the old files.
+you have to copy the files [stm32f4xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.3.0/system/STM32F4xx) and [stm32f7xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.3.0/system/STM32F7xx) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/2.3.0/system) to overwrite the old files.
 
-Supposing the STM32 stm32 core version is 1.9.0. These files must be copied into the directory:
+Supposing the STM32 stm32 core version is 2.3.0. These files must be copied into the directory:
 
-- `~/.arduino15/packages/STM32/hardware/stm32/1.9.0/system/STM32F4xx/stm32f4xx_hal_conf_default.h` for STM32F4.
-- `~/.arduino15/packages/STM32/hardware/stm32/1.9.0/system/STM32F7xx/stm32f7xx_hal_conf_default.h` for Nucleo-144 STM32F7.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/system/STM32F4xx/stm32f4xx_hal_conf_default.h` for STM32F4.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/system/STM32F7xx/stm32f7xx_hal_conf_default.h` for Nucleo-144 STM32F7.
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz,
 theses files must be copied into the corresponding directory:
@@ -164,18 +176,44 @@ theses files must be copied into the corresponding directory:
 
 #### 2. For STM32 boards to use Serial1
 
-**To use Serial1 on some STM32 boards without Serial1 definition (Nucleo-144 NUCLEO_F767ZI, Nucleo-64 NUCLEO_L053R8, etc.) boards**, you have to copy the files [STM32 variant.h](Packages_Patches/STM32/hardware/stm32/1.9.0) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/1.9.0). You have to modify the files corresponding to your boards, this is just an illustration how to do.
+**To use Serial1 on some STM32 boards without Serial1 definition (Nucleo-144 NUCLEO_F767ZI, Nucleo-64 NUCLEO_L053R8, etc.) boards**, you have to copy the files [STM32 variant.h](Packages_Patches/STM32/hardware/stm32/2.3.0) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/2.3.0). You have to modify the files corresponding to your boards, this is just an illustration how to do.
 
-Supposing the STM32 stm32 core version is 1.9.0. These files must be copied into the directory:
+Supposing the STM32 stm32 core version is 2.3.0. These files must be copied into the directory:
 
-- `~/.arduino15/packages/STM32/hardware/stm32/1.9.0/variants/NUCLEO_F767ZI/variant.h` for Nucleo-144 NUCLEO_F767ZI.
-- `~/.arduino15/packages/STM32/hardware/stm32/1.9.0/variants/NUCLEO_L053R8/variant.h` for Nucleo-64 NUCLEO_L053R8.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/variants/NUCLEO_F767ZI/variant.h` for Nucleo-144 NUCLEO_F767ZI.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/variants/NUCLEO_L053R8/variant.h` for Nucleo-64 NUCLEO_L053R8.
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz,
 theses files must be copied into the corresponding directory:
 
 - `~/.arduino15/packages/STM32/hardware/stm32/x.yy.zz/variants/NUCLEO_F767ZI/variant.h`
 - `~/.arduino15/packages/STM32/hardware/stm32/x.yy.zz/variants/NUCLEO_L053R8/variant.h`
+
+
+---
+---
+
+
+### HOWTO Fix `Multiple Definitions` Linker Error
+
+The current library implementation, using `xyz-Impl.h` instead of standard `xyz.cpp`, possibly creates certain `Multiple Definitions` Linker error in certain use cases.
+
+You can include this `.hpp` file
+
+```
+// Can be included as many times as necessary, without `Multiple Definitions` Linker Error
+#include "AsyncUDP_STM32.hpp"     //https://github.com/khoih-prog/AsyncUDP_STM32
+```
+
+in many files. But be sure to use the following `.h` file **in just 1 `.h`, `.cpp` or `.ino` file**, which must **not be included in any other file**, to avoid `Multiple Definitions` Linker Error
+
+```
+// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
+#include "AsyncUDP_STM32.h"       //https://github.com/khoih-prog/AsyncUDP_STM32
+```
+
+Check the new [**multiFileProject** example](examples/multiFileProject) for a `HOWTO` demo.
+
 
 
 ---
@@ -318,6 +356,8 @@ Connect FDTI (USB to Serial) as follows:
  8. [AsyncUdpSendReceive_LAN8720](examples/AsyncUdpSendReceive_LAN8720)
  9. [AsyncUDPServer_LAN8720](examples/AsyncUDPServer_LAN8720)
 10. [AsyncUDPMulticastServer_LAN8720](examples/AsyncUDPMulticastServer_LAN8720)
+11. [**multiFileProject**](examples/multiFileProject) **New**
+12. [**multiFileProject_LAN8720**](examples/multiFileProject_LAN8720) **New**
 
 ---
 
@@ -325,262 +365,13 @@ Connect FDTI (USB to Serial) as follows:
 
 #### 1. File [AsyncUdpNTPClient.ino](examples/AsyncUdpNTPClient/AsyncUdpNTPClient.ino)
 
+https://github.com/khoih-prog/AsyncUDP_STM32/blob/5adf5c9fad72c9118590b5f07abd0dfee499786f/examples/AsyncUdpNTPClient/AsyncUdpNTPClient.ino#L13-L160
 
-```cpp
-#include "defines.h"
-#include <time.h>
-
-IPAddress timeWindowsCom = IPAddress(13, 86, 101, 172);
-
-#define NTP_REQUEST_PORT      123
-
-char timeServer[]         = "time.nist.gov";  // NTP server
-
-const int NTP_PACKET_SIZE = 48;       // NTP timestamp is in the first 48 bytes of the message
-
-byte packetBuffer[NTP_PACKET_SIZE];   // buffer to hold incoming and outgoing packets
-
-// A UDP instance to let us send and receive packets over UDP
-AsyncUDP Udp;
-
-// send an NTP request to the time server at the given address
-void createNTPpacket(void)
-{
-  Serial.println("============= createNTPpacket =============");
-
-  // set all bytes in the buffer to 0
-  memset(packetBuffer, 0, NTP_PACKET_SIZE);
-  // Initialize values needed to form NTP request
-  // (see URL above for details on the packets)
-
-  packetBuffer[0]   = 0b11100011;   // LI, Version, Mode
-  packetBuffer[1]   = 0;     // Stratum, or type of clock
-  packetBuffer[2]   = 6;     // Polling Interval
-  packetBuffer[3]   = 0xEC;  // Peer Clock Precision
-  
-  // 8 bytes of zero for Root Delay & Root Dispersion
-  packetBuffer[12]  = 49;
-  packetBuffer[13]  = 0x4E;
-  packetBuffer[14]  = 49;
-  packetBuffer[15]  = 52;
-}
-
-void parsePacket(AsyncUDPPacket packet)
-{
-  struct tm  ts;
-  char       buf[80];
-  
-  memcpy(packetBuffer, packet.data(), sizeof(packetBuffer));
-
-  Serial.print("Received UDP Packet Type: ");
-  Serial.println(packet.isBroadcast() ? "Broadcast" : packet.isMulticast() ? "Multicast" : "Unicast");
-  Serial.print("From: ");
-  Serial.print(packet.remoteIP());
-  Serial.print(":");
-  Serial.print(packet.remotePort());
-  Serial.print(", To: ");
-  Serial.print(packet.localIP());
-  Serial.print(":");
-  Serial.print(packet.localPort());
-  Serial.print(", Length: ");
-  Serial.print(packet.length());
-  Serial.println();
-
-  unsigned long highWord = word(packetBuffer[40], packetBuffer[41]);
-  unsigned long lowWord = word(packetBuffer[42], packetBuffer[43]);
-
-  // combine the four bytes (two words) into a long integer
-  // this is NTP time (seconds since Jan 1 1900):
-  unsigned long secsSince1900 = highWord << 16 | lowWord;
-  
-  Serial.print(F("Seconds since Jan 1 1900 = "));
-  Serial.println(secsSince1900);
-
-  // now convert NTP time into )everyday time:
-  Serial.print(F("Epoch/Unix time = "));
-  
-  // Unix time starts on Jan 1 1970. In seconds, that's 2208988800:
-  const unsigned long seventyYears = 2208988800UL;
-  
-  // subtract seventy years:
-  unsigned long epoch = secsSince1900 - seventyYears;
-  time_t epoch_t = epoch;   //secsSince1900 - seventyYears;
- 
-  // print Unix time:
-  Serial.println(epoch);
-
-  // print the hour, minute and second:
-  Serial.print(F("The UTC/GMT time is "));       // UTC is the time at Greenwich Meridian (GMT)
-
-  ts = *localtime(&epoch_t);
-  strftime(buf, sizeof(buf), "%a %Y-%m-%d %H:%M:%S %Z", &ts);
-  Serial.println(buf);
-}
-
-void sendNTPPacket(void)
-{
-  createNTPpacket();
-  //Send unicast
-  Udp.write(packetBuffer, sizeof(packetBuffer));
-}
-
-void setup()
-{
-  Serial.begin(115200);
-  while (!Serial);
-
-  Serial.println("\nStart AsyncUdpNTPClient on " + String(BOARD_NAME));
-  Serial.println(ASYNC_UDP_STM32_VERSION);
-
-  // start the ethernet connection and the server
-  // Use random mac
-  uint16_t index = millis() % NUMBER_OF_MAC;
-
-  // Use Static IP
-  //Ethernet.begin(mac[index], ip);
-  // Use DHCP dynamic IP and random mac
-  Ethernet.begin(mac[index]);
-
-  // you're connected now, so print out the data
-  Serial.print(F("You're connected to the network, IP = "));
-  Serial.println(Ethernet.localIP());
-
-  //NTP requests are to port NTP_REQUEST_PORT = 123
-  if (Udp.connect(timeWindowsCom, NTP_REQUEST_PORT))
-  {
-    Serial.println("UDP connected");
-
-    Udp.onPacket([](AsyncUDPPacket packet)
-    {
-      parsePacket(packet);
-    });
-  }
-}
-
-void loop()
-{
-  sendNTPPacket();
-
-  // wait 60 seconds before asking for the time again
-  delay(60000);
-}
-```
 
 #### 2. File [defines.h](examples/AsyncUdpNTPClient/defines.h)
 
-```cpp
-/*
-   Currently support
-   1) STM32 boards with built-in Ethernet (to use USE_BUILTIN_ETHERNET = true) such as :
-      - Nucleo-144 (F429ZI, F767ZI)
-      - Discovery (STM32F746G-DISCOVERY)
-      - STM32 boards (STM32F/L/H/G/WB/MP1) with 32K+ Flash, with Built-in Ethernet, 
-      - See How To Use Built-in Ethernet at (https://github.com/khoih-prog/EthernetWebServer_STM32/issues/1)
-   2) STM32F/L/H/G/WB/MP1 boards (with 32+K Flash) running ENC28J60 shields (to use USE_BUILTIN_ETHERNET = false)
-   3) STM32F/L/H/G/WB/MP1 boards (with 32+K Flash) running W5x00 shields
-*/
+https://github.com/khoih-prog/AsyncUDP_STM32/blob/5adf5c9fad72c9118590b5f07abd0dfee499786f/examples/AsyncUdpNTPClient/defines.h#L12-L124
 
-#ifndef defines_h
-#define defines_h
-
-#if !( defined(STM32F0) || defined(STM32F1) || defined(STM32F2) || defined(STM32F3)  ||defined(STM32F4) || defined(STM32F7) || \
-       defined(STM32L0) || defined(STM32L1) || defined(STM32L4) || defined(STM32H7)  ||defined(STM32G0) || defined(STM32G4) || \
-       defined(STM32WB) || defined(STM32MP1) )
-  #error This code is designed to run on STM32F/L/H/G/WB/MP1 platform! Please check your Tools->Board setting.
-#endif
-
-#define ASYNC_UDP_STM32_DEBUG_PORT      Serial
-#define _ASYNC_UDP_STM32_LOGLEVEL_      1
-
-
-#if defined(STM32F0)
-  #warning STM32F0 board selected
-  #define BOARD_TYPE  "STM32F0"
-#elif defined(STM32F1)
-  #warning STM32F1 board selected
-  #define BOARD_TYPE  "STM32F1"
-#elif defined(STM32F2)
-  #warning STM32F2 board selected
-  #define BOARD_TYPE  "STM32F2"
-#elif defined(STM32F3)
-  #warning STM32F3 board selected
-  #define BOARD_TYPE  "STM32F3"
-#elif defined(STM32F4)
-  #warning STM32F4 board selected
-  #define BOARD_TYPE  "STM32F4"
-#elif defined(STM32F7)
-  #warning STM32F7 board selected
-  #define BOARD_TYPE  "STM32F7"
-#elif defined(STM32L0)
-  #warning STM32L0 board selected
-  #define BOARD_TYPE  "STM32L0"
-#elif defined(STM32L1)
-  #warning STM32L1 board selected
-  #define BOARD_TYPE  "STM32L1"
-#elif defined(STM32L4)
-  #warning STM32L4 board selected
-  #define BOARD_TYPE  "STM32L4"
-#elif defined(STM32H7)
-  #warning STM32H7 board selected
-  #define BOARD_TYPE  "STM32H7"
-#elif defined(STM32G0)
-  #warning STM32G0 board selected
-  #define BOARD_TYPE  "STM32G0"
-#elif defined(STM32G4)
-  #warning STM32G4 board selected
-  #define BOARD_TYPE  "STM32G4"
-#elif defined(STM32WB)
-  #warning STM32WB board selected
-  #define BOARD_TYPE  "STM32WB"
-#elif defined(STM32MP1)
-  #warning STM32MP1 board selected
-  #define BOARD_TYPE  "STM32MP1"
-#else
-  #warning STM32 unknown board selected
-  #define BOARD_TYPE  "STM32 Unknown"
-#endif
-
-#ifndef BOARD_NAME
-  #define BOARD_NAME    BOARD_TYPE
-#endif
-
-#include <LwIP.h>
-#include <STM32Ethernet.h>
-
-#include <AsyncUDP_STM32.h>
-
-// Enter a MAC address and IP address for your controller below.
-#define NUMBER_OF_MAC      20
-
-byte mac[][NUMBER_OF_MAC] =
-{
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x01 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x02 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x03 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x04 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x05 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x06 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x07 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x08 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x09 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x0A },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x0B },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x0C },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x0D },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x0E },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x0F },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x10 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x11 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x12 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x13 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0x32, 0x14 },
-};
-
-// Select the static IP address according to your local network
-IPAddress ip(192, 168, 2, 232);
-
-#endif    //defines_h
-```
 
 ---
 
@@ -592,31 +383,28 @@ This is terminal debug output when running [AsyncUdpNTPClient](examples/AsyncUdp
 
 ```
 Start AsyncUdpNTPClient on NUCLEO_F767ZI
-AsyncUdp_STM32 v1.2.1
-You're connected to the network, IP = 192.168.2.187
+AsyncUdp_STM32 v1.3.0
+STM32 Core version v2.3.0
+You're connected to the network, IP = 192.168.2.157
 UDP connected
-
 ============= createNTPpacket =============
 Received UDP Packet Type: Unicast
-From: 13.86.101.172:123, To: 192.168.2.151:62510, Length: 48
-Seconds since Jan 1 1900 = 3827179469
-Epoch/Unix time = 1618190669
-The UTC/GMT time is Mon 2021-04-12 01:24:29 GMT
-============= sendACKPacket =============
+From: 208.81.1.244:123, To: 192.168.2.157:62510, Length: 48
+Seconds since Jan 1 1900 = 3864858437
+Epoch/Unix time = 1655869637
+The UTC/GMT time is Wed 2022-06-22 03:47:17 GMT
 ============= createNTPpacket =============
 Received UDP Packet Type: Unicast
-From: 13.86.101.172:123, To: 192.168.2.151:62510, Length: 48
-Seconds since Jan 1 1900 = 3827179529
-Epoch/Unix time = 1618190729
-The UTC/GMT time is Mon 2021-04-12 01:25:29 GMT
-============= sendACKPacket =============
+From: 208.81.1.244:123, To: 192.168.2.157:62510, Length: 48
+Seconds since Jan 1 1900 = 3864858497
+Epoch/Unix time = 1655869697
+The UTC/GMT time is Wed 2022-06-22 03:48:17 GMT
 ============= createNTPpacket =============
 Received UDP Packet Type: Unicast
-From: 13.86.101.172:123, To: 192.168.2.151:62510, Length: 48
-Seconds since Jan 1 1900 = 3827179589
-Epoch/Unix time = 1618190789
-The UTC/GMT time is Mon 2021-04-12 01:26:29 GMT
-
+From: 208.81.1.244:123, To: 192.168.2.157:62510, Length: 48
+Seconds since Jan 1 1900 = 3864858557
+Epoch/Unix time = 1655869757
+The UTC/GMT time is Wed 2022-06-22 03:49:17 GMT
 ```
 
 ---
@@ -627,27 +415,28 @@ This is terminal debug output when running [AsyncUdpNTPClient_LAN8720](examples/
 
 ```
 Start AsyncUdpNTPClient_LAN8720 on BLACK_F407VE
-AsyncUdp_STM32 v1.2.1
+AsyncUdp_STM32 v1.3.0
+STM32 Core version v2.3.0
 You're connected to the network, IP = 192.168.2.151
 UDP connected
 ============= createNTPpacket =============
 Received UDP Packet Type: Unicast
-From: 13.86.101.172:123, To: 192.168.2.151:62510, Length: 48
-Seconds since Jan 1 1900 = 3827180083
-Epoch/Unix time = 1618191283
-The UTC/GMT time is Mon 2021-04-12 01:34:43 GMT
+From: 208.81.1.244:123, To: 192.168.2.157:62510, Length: 48
+Seconds since Jan 1 1900 = 3864858616
+Epoch/Unix time = 1655869816
+The UTC/GMT time is Wed 2022-06-22 03:50:16 GMT
 ============= createNTPpacket =============
 Received UDP Packet Type: Unicast
-From: 13.86.101.172:123, To: 192.168.2.151:62510, Length: 48
-Seconds since Jan 1 1900 = 3827180143
-Epoch/Unix time = 1618191343
-The UTC/GMT time is Mon 2021-04-12 01:35:43 GMT
+From: 208.81.1.244:123, To: 192.168.2.157:62510, Length: 48
+Seconds since Jan 1 1900 = 3864858676
+Epoch/Unix time = 1655869876
+The UTC/GMT time is Wed 2022-06-22 03:51:16 GMT
 ============= createNTPpacket =============
 Received UDP Packet Type: Unicast
-From: 13.86.101.172:123, To: 192.168.2.151:62510, Length: 48
-Seconds since Jan 1 1900 = 3827180203
-Epoch/Unix time = 1618191403
-The UTC/GMT time is Mon 2021-04-12 01:36:43 GMT
+From: 208.81.1.244:123, To: 192.168.2.157:62510, Length: 48
+Seconds since Jan 1 1900 = 3864858735
+Epoch/Unix time = 1655869935
+The UTC/GMT time is Wed 2022-06-22 03:52:15 GMT
 ```
 
 ---
@@ -705,6 +494,10 @@ Submit issues to: [AsyncUDP_STM32 issues](https://github.com/khoih-prog/AsyncUDP
  2. Add more examples.
  3. Add debugging features.
  4. Add support to **Ethernet LAN8720** using [STM32Ethernet library](https://github.com/stm32duino/STM32Ethernet), for boards such as **Nucleo-144 (F429ZI, NUCLEO_F746NG, NUCLEO_F746ZG, NUCLEO_F756ZG), Discovery (DISCO_F746NG)** and **STM32F4 boards (BLACK_F407VE, BLACK_F407VG, BLACK_F407ZE, BLACK_F407ZG, BLACK_F407VE_Mini, DIYMORE_F407VGT, FK407M1)**
+ 5. Fix multiple-definitions linker error
+ 6. Update examples for new **STM32 core v2.3.0**
+ 7. Add example [multiFileProject](examples/multiFileProject) and [multiFileProject_LAN8720](examples/multiFileProject_LAN8720) to demo for multiple-file project to avoid `multiple-definitions` linker error
+
 
 ---
 ---
