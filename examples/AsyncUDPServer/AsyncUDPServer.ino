@@ -56,15 +56,19 @@ AsyncUDP udp;
 void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
-  
+
   Serial.println("\nStart AsyncUDPServer on " + String(BOARD_NAME));
   Serial.println(ASYNC_UDP_STM32_VERSION);
 
 #if (_ASYNC_UDP_STM32_LOGLEVEL_ > 2)
-  Serial.print("STM32 Core version v"); Serial.print(STM32_CORE_VERSION_MAJOR);
-  Serial.print("."); Serial.print(STM32_CORE_VERSION_MINOR); 
-  Serial.print("."); Serial.println(STM32_CORE_VERSION_PATCH);
+  Serial.print("STM32 Core version v");
+  Serial.print(STM32_CORE_VERSION_MAJOR);
+  Serial.print(".");
+  Serial.print(STM32_CORE_VERSION_MINOR);
+  Serial.print(".");
+  Serial.println(STM32_CORE_VERSION_PATCH);
 #endif
 
   // start the ethernet connection and the server
@@ -75,13 +79,13 @@ void setup()
   //Ethernet.begin(mac[index], ip);
   // Use DHCP dynamic IP and random mac
   Ethernet.begin(mac[index]);
- 
-  if (udp.listen(1234)) 
+
+  if (udp.listen(1234))
   {
     Serial.print("UDP Listening on IP: ");
     Serial.println(Ethernet.localIP());
-    
-    udp.onPacket([](AsyncUDPPacket packet) 
+
+    udp.onPacket([](AsyncUDPPacket packet)
     {
       Serial.print("UDP Packet Type: ");
       Serial.print(packet.isBroadcast() ? "Broadcast" : packet.isMulticast() ? "Multicast" : "Unicast");

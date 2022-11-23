@@ -1,10 +1,10 @@
 /****************************************************************************************************************************
   defines.h
-  
+
   For STM32 with built-in LAN8742A Ethernet (Nucleo-144, DISCOVERY, etc)
 
   AsyncUDP_STM32 is a Async UDP library for the STM32 using built-in LAN8742A Ethernet
-  
+
   Based on and modified from ESPAsyncUDP Library (https://github.com/me-no-dev/ESPAsyncUDP)
   Built by Khoi Hoang https://github.com/khoih-prog/AsyncUDP_STM32
   Licensed under MIT license
@@ -14,7 +14,7 @@
    1) STM32 boards with built-in Ethernet (to use USE_BUILTIN_ETHERNET = true) such as :
       - Nucleo-144 (F429ZI, F767ZI)
       - Discovery (STM32F746G-DISCOVERY)
-      - STM32 boards (STM32F/L/H/G/WB/MP1) with 32K+ Flash, with Built-in Ethernet, 
+      - STM32 boards (STM32F/L/H/G/WB/MP1) with 32K+ Flash, with Built-in Ethernet,
       - See How To Use Built-in Ethernet at (https://github.com/khoih-prog/EthernetWebServer_STM32/issues/1)
    2) STM32F/L/H/G/WB/MP1 boards (with 32+K Flash) running ENC28J60 shields (to use USE_BUILTIN_ETHERNET = false)
    3) STM32F/L/H/G/WB/MP1 boards (with 32+K Flash) running W5x00 shields
@@ -31,7 +31,7 @@
 #if !( defined(ARDUINO_BLACK_F407VE) || defined(ARDUINO_BLACK_F407VG) || defined(ARDUINO_BLACK_F407ZE) || defined(ARDUINO_BLACK_F407ZG)  || \
        defined(ARDUINO_BLUE_F407VE_Mini) || defined(ARDUINO_DIYMORE_F407VGT) || defined(ARDUINO_FK407M1) || defined(ARDUINO_NUCLEO_F429ZI) || \
        defined(ARDUINO_DISCO_F746NG) || defined(ARDUINO_NUCLEO_F746ZG) || defined(ARDUINO_NUCLEO_F756ZG) || defined(ARDUINO_NUCLEO_H743ZI) )
-  #error This code is designed to run on some STM32F407XX NUCLEO-F429ZI, STM32F746 and STM32F756 platform! Please check your Tools->Board setting.
+#error This code is designed to run on some STM32F407XX NUCLEO-F429ZI, STM32F746 and STM32F756 platform! Please check your Tools->Board setting.
 #endif
 
 #define USING_LAN8720                   true

@@ -16,26 +16,30 @@
 // Can be included as many times as necessary, without `Multiple Definitions` Linker Error
 #include "AsyncUDP_STM32.h"
 
-void setup() 
+void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
 
   delay(500);
-  
+
   Serial.println("\nStart multiFileProject");
   Serial.println(ASYNC_UDP_STM32_VERSION);
 
 #if (_ASYNC_UDP_STM32_LOGLEVEL_ > 2)
-  Serial.print("STM32 Core version v"); Serial.print(STM32_CORE_VERSION_MAJOR);
-  Serial.print("."); Serial.print(STM32_CORE_VERSION_MINOR); 
-  Serial.print("."); Serial.println(STM32_CORE_VERSION_PATCH);
+  Serial.print("STM32 Core version v");
+  Serial.print(STM32_CORE_VERSION_MAJOR);
+  Serial.print(".");
+  Serial.print(STM32_CORE_VERSION_MINOR);
+  Serial.print(".");
+  Serial.println(STM32_CORE_VERSION_PATCH);
 #endif
 
   Serial.print("You're OK now");
 }
 
-void loop() 
+void loop()
 {
   // put your main code here, to run repeatedly:
 }

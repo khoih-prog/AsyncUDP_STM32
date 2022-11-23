@@ -1,10 +1,10 @@
 /****************************************************************************************************************************
   defines.h
-  
+
   For STM32 with built-in LAN8742A Ethernet (Nucleo-144, DISCOVERY, etc)
 
   AsyncUDP_STM32 is a Async UDP library for the STM32 using built-in LAN8742A Ethernet
-  
+
   Based on and modified from ESPAsyncUDP Library (https://github.com/me-no-dev/ESPAsyncUDP)
   Built by Khoi Hoang https://github.com/khoih-prog/AsyncUDP_STM32
   Licensed under MIT license
@@ -14,7 +14,7 @@
    1) STM32 boards with built-in Ethernet (to use USE_BUILTIN_ETHERNET = true) such as :
       - Nucleo-144 (F429ZI, F767ZI)
       - Discovery (STM32F746G-DISCOVERY)
-      - STM32 boards (STM32F/L/H/G/WB/MP1) with 32K+ Flash, with Built-in Ethernet, 
+      - STM32 boards (STM32F/L/H/G/WB/MP1) with 32K+ Flash, with Built-in Ethernet,
       - See How To Use Built-in Ethernet at (https://github.com/khoih-prog/EthernetWebServer_STM32/issues/1)
    2) STM32F/L/H/G/WB/MP1 boards (with 32+K Flash) running ENC28J60 shields (to use USE_BUILTIN_ETHERNET = false)
    3) STM32F/L/H/G/WB/MP1 boards (with 32+K Flash) running W5x00 shields
@@ -26,7 +26,7 @@
 #if !( defined(STM32F0) || defined(STM32F1) || defined(STM32F2) || defined(STM32F3)  ||defined(STM32F4) || defined(STM32F7) || \
        defined(STM32L0) || defined(STM32L1) || defined(STM32L4) || defined(STM32H7)  ||defined(STM32G0) || defined(STM32G4) || \
        defined(STM32WB) || defined(STM32MP1) )
-  #error This code is designed to run on STM32F/L/H/G/WB/MP1 platform! Please check your Tools->Board setting.
+#error This code is designed to run on STM32F/L/H/G/WB/MP1 platform! Please check your Tools->Board setting.
 #endif
 
 #define ASYNC_UDP_STM32_DEBUG_PORT      Serial

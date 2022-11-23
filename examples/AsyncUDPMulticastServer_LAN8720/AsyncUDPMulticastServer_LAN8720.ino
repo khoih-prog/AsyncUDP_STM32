@@ -13,9 +13,9 @@
   KH, you have to modify line 1070 of "lwip/opt.h" in STM32duino_LwIP library to use multicast feature
   From #define LWIP_IGMP     0
   to   #define LWIP_IGMP     1
-  
+
   Otherwise, you'll get error "undefined reference to `igmp_joingroup(ip4_addr const*, ip4_addr const*)`
-  
+
   Just old design not permitting the definitions here to affect deeply into underlying files
   Even #define LWIP_IPV4         1 and #define LWIP_IGMP         1
   didn't solve the issue
@@ -24,7 +24,7 @@
 #if !( defined(ARDUINO_BLACK_F407VE) || defined(ARDUINO_BLACK_F407VG) || defined(ARDUINO_BLACK_F407ZE) || defined(ARDUINO_BLACK_F407ZG)  || \
        defined(ARDUINO_BLUE_F407VE_Mini) || defined(ARDUINO_DIYMORE_F407VGT) || defined(ARDUINO_FK407M1) || defined(ARDUINO_NUCLEO_F429ZI) || \
        defined(ARDUINO_DISCO_F746NG) || defined(ARDUINO_NUCLEO_F746ZG) || defined(ARDUINO_NUCLEO_F756ZG) || defined(ARDUINO_NUCLEO_H743ZI) )
-  #error This code is designed to run on some STM32F407XX NUCLEO-F429ZI, STM32F746 and STM32F756 platform! Please check your Tools->Board setting.
+#error This code is designed to run on some STM32F407XX NUCLEO-F429ZI, STM32F746 and STM32F756 platform! Please check your Tools->Board setting.
 #endif
 
 #include <Arduino.h>
@@ -97,14 +97,17 @@ void setup()
 {
   Serial.begin(115200);
   delay(2000);
-  
+
   Serial.println("\nStart AsyncUDPMulticastServer_LAN8720 on " + String(BOARD_NAME));
   Serial.println(ASYNC_UDP_STM32_VERSION);
 
 #if (_ASYNC_UDP_STM32_LOGLEVEL_ > 2)
-  Serial.print("STM32 Core version v"); Serial.print(STM32_CORE_VERSION_MAJOR);
-  Serial.print("."); Serial.print(STM32_CORE_VERSION_MINOR); 
-  Serial.print("."); Serial.println(STM32_CORE_VERSION_PATCH);
+  Serial.print("STM32 Core version v");
+  Serial.print(STM32_CORE_VERSION_MAJOR);
+  Serial.print(".");
+  Serial.print(STM32_CORE_VERSION_MINOR);
+  Serial.print(".");
+  Serial.println(STM32_CORE_VERSION_PATCH);
 #endif
 
   // start the ethernet connection and the server

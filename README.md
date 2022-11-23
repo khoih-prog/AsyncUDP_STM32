@@ -1,4 +1,4 @@
-# AsyncUDP_STM32
+# AsyncUDP_STM32 Library
 
 
 [![arduino-library-badge](https://www.ardu-badge.com/badge/AsyncUDP_STM32.svg?)](https://www.ardu-badge.com/AsyncUDP_STM32)
@@ -10,6 +10,8 @@
 
 <a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Donate to my libraries using BuyMeACoffee" style="height: 50px !important;width: 181px !important;" ></a>
 <a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg?logo=buy-me-a-coffee&logoColor=FFDD00" style="height: 20px !important;width: 200px !important;" ></a>
+<a href="https://profile-counter.glitch.me/khoih-prog/count.svg" title="Total khoih-prog Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog/count.svg" style="height: 30px;width: 200px;"></a>
+<a href="https://profile-counter.glitch.me/khoih-prog-AsyncUDP_STM32/count.svg" title="AsyncUDP_STM32 Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog-AsyncUDP_STM32/count.svg" style="height: 30px;width: 200px;"></a>
 
 ---
 ---
@@ -71,7 +73,7 @@
 
 Please have a look at [HOWTO Fix `Multiple Definitions` Linker Error](#howto-fix-multiple-definitions-linker-error)
 
-For `Generic STM32F4 series` boards, such as STM32F407VE, using LAN8720, please use STM32 core v2.2.0 as breaking core v2.3.0 creates the compile error. Will fix in the near future.
+For `Generic STM32F4 series` boards, such as STM32F407VE, using LAN8720, please use STM32 core `v2.2.0` as breaking core `v2.3.0` creates the compile error. Will fix in the near future.
 
 ---
 ---
@@ -155,18 +157,22 @@ The best way is to use `Arduino Library Manager`. Search for `AsyncUDP_STM32`, t
 
 #### 1. For STM32 boards to use LAN8720
 
+For `Generic STM32F4 series` boards, such as `STM32F407VE`, using `LAN8720`, please use STM32 core `v2.2.0` as breaking core `v2.3.0` creates the compile error.
+
+---
+
 To use LAN8720 on some STM32 boards 
 
 - **Nucleo-144 (F429ZI, NUCLEO_F746NG, NUCLEO_F746ZG, NUCLEO_F756ZG)**
 - **Discovery (DISCO_F746NG)**
 - **STM32F4 boards (BLACK_F407VE, BLACK_F407VG, BLACK_F407ZE, BLACK_F407ZG, BLACK_F407VE_Mini, DIYMORE_F407VGT, FK407M1)**
 
-you have to copy the files [stm32f4xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.3.0/system/STM32F4xx) and [stm32f7xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.3.0/system/STM32F7xx) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/2.3.0/system) to overwrite the old files.
+you have to copy the files [stm32f4xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.2.0/system/STM32F4xx) and [stm32f7xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.2.0/system/STM32F7xx) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/2.2.0/system) to overwrite the old files.
 
-Supposing the STM32 stm32 core version is 2.3.0. These files must be copied into the directory:
+Supposing the STM32 stm32 core version is 2.2.0. These files must be copied into the directory:
 
-- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/system/STM32F4xx/stm32f4xx_hal_conf_default.h` for STM32F4.
-- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/system/STM32F7xx/stm32f7xx_hal_conf_default.h` for Nucleo-144 STM32F7.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.2.0/system/STM32F4xx/stm32f4xx_hal_conf_default.h` for STM32F4.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.2.0/system/STM32F7xx/stm32f7xx_hal_conf_default.h` for Nucleo-144 STM32F7.
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz,
 these files must be copied into the corresponding directory:
@@ -201,14 +207,14 @@ The current library implementation, using `xyz-Impl.h` instead of standard `xyz.
 
 You can include this `.hpp` file
 
-```
+```cpp
 // Can be included as many times as necessary, without `Multiple Definitions` Linker Error
 #include "AsyncUDP_STM32.hpp"     //https://github.com/khoih-prog/AsyncUDP_STM32
 ```
 
 in many files. But be sure to use the following `.h` file **in just 1 `.h`, `.cpp` or `.ino` file**, which must **not be included in any other file**, to avoid `Multiple Definitions` Linker Error
 
-```
+```cpp
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
 #include "AsyncUDP_STM32.h"       //https://github.com/khoih-prog/AsyncUDP_STM32
 ```
@@ -326,7 +332,7 @@ Connect as follows. To program, use **STM32CubeProgrammer** or Arduino IDE with
 
 
 <p align="center">
-    <img src="https://github.com/khoih-prog/AsyncUDP_STM32/blob/master/pics/STM32F407VET6.png">
+    <img src="https://github.com/khoih-prog/AsyncUDP_STM32/raw/master/pics/STM32F407VET6.png">
 </p>
 
 ---
@@ -382,7 +388,7 @@ https://github.com/khoih-prog/AsyncUDP_STM32/blob/5adf5c9fad72c9118590b5f07abd0d
 
 This is terminal debug output when running [AsyncUdpNTPClient](examples/AsyncUdpNTPClient) on  ***STM32F7 Nucleo-144 NUCLEO_F767ZI.***. It connects to NTP Server time.windows.com (IP=13.86.101.172) using AsyncUDP_STM32 library, and requests NTP time every 60s. The packet is then **received and processed asynchronously** to print current UTC/GMT time.
 
-```
+```cpp
 Start AsyncUdpNTPClient on NUCLEO_F767ZI
 AsyncUdp_STM32 v1.3.0
 STM32 Core version v2.3.0
@@ -414,7 +420,7 @@ The UTC/GMT time is Wed 2022-06-22 03:49:17 GMT
 
 This is terminal debug output when running [AsyncUdpNTPClient_LAN8720](examples/AsyncUdpNTPClient_LAN8720) on **STM32F4 BLACK_F407VE with LAN8720 Ethernet using STM32Ethernet Library**. It connects to NTP Server time.windows.com (IP=13.86.101.172) using AsyncUDP_STM32 library, and requests NTP time every 60s. The packet is then **received and processed asynchronously** to print current UTC/GMT time.
 
-```
+```cpp
 Start AsyncUdpNTPClient_LAN8720 on BLACK_F407VE
 AsyncUdp_STM32 v1.3.0
 STM32 Core version v2.3.0
@@ -538,6 +544,6 @@ If you want to contribute to this project:
 
 ## Copyright
 
-Copyright 2020- Khoi Hoang
+Copyright (c) 2020- Khoi Hoang
 
 

@@ -13,9 +13,9 @@
   KH, you have to modify line 1070 of "lwip/opt.h" in STM32duino_LwIP library to use multicast feature
   From #define LWIP_IGMP     0
   to   #define LWIP_IGMP     1
-  
+
   Otherwise, you'll get error "undefined reference to `igmp_joingroup(ip4_addr const*, ip4_addr const*)`
-  
+
   Just old design not permitting the definitions here to affect deeply into underlying files
   Even #define LWIP_IPV4         1 and #define LWIP_IGMP         1
   didn't solve the issue
@@ -87,15 +87,19 @@ void parsePacket(AsyncUDPPacket packet)
 void setup()
 {
   Serial.begin(115200);
+
   while (!Serial);
 
   Serial.println("\nStart AsyncUDPMulticastServer on " + String(BOARD_NAME));
   Serial.println(ASYNC_UDP_STM32_VERSION);
 
 #if (_ASYNC_UDP_STM32_LOGLEVEL_ > 2)
-  Serial.print("STM32 Core version v"); Serial.print(STM32_CORE_VERSION_MAJOR);
-  Serial.print("."); Serial.print(STM32_CORE_VERSION_MINOR); 
-  Serial.print("."); Serial.println(STM32_CORE_VERSION_PATCH);
+  Serial.print("STM32 Core version v");
+  Serial.print(STM32_CORE_VERSION_MAJOR);
+  Serial.print(".");
+  Serial.print(STM32_CORE_VERSION_MINOR);
+  Serial.print(".");
+  Serial.println(STM32_CORE_VERSION_PATCH);
 #endif
 
   // start the ethernet connection and the server

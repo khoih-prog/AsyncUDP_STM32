@@ -13,7 +13,7 @@
 #if !( defined(ARDUINO_BLACK_F407VE) || defined(ARDUINO_BLACK_F407VG) || defined(ARDUINO_BLACK_F407ZE) || defined(ARDUINO_BLACK_F407ZG)  || \
        defined(ARDUINO_BLUE_F407VE_Mini) || defined(ARDUINO_DIYMORE_F407VGT) || defined(ARDUINO_FK407M1) || defined(ARDUINO_NUCLEO_F429ZI) || \
        defined(ARDUINO_DISCO_F746NG) || defined(ARDUINO_NUCLEO_F746ZG) || defined(ARDUINO_NUCLEO_F756ZG) || defined(ARDUINO_NUCLEO_H743ZI) )
-  #error This code is designed to run on some STM32F407XX NUCLEO-F429ZI, STM32F746 and STM32F756 platform! Please check your Tools->Board setting.
+#error This code is designed to run on some STM32F407XX NUCLEO-F429ZI, STM32F746 and STM32F756 platform! Please check your Tools->Board setting.
 #endif
 
 #include <Arduino.h>
@@ -66,14 +66,17 @@ void setup()
 {
   Serial.begin(115200);
   delay(2000);
-  
+
   Serial.println("\nStart AsyncUDPServer_LAN8720 on " + String(BOARD_NAME));
   Serial.println(ASYNC_UDP_STM32_VERSION);
 
 #if (_ASYNC_UDP_STM32_LOGLEVEL_ > 2)
-  Serial.print("STM32 Core version v"); Serial.print(STM32_CORE_VERSION_MAJOR);
-  Serial.print("."); Serial.print(STM32_CORE_VERSION_MINOR); 
-  Serial.print("."); Serial.println(STM32_CORE_VERSION_PATCH);
+  Serial.print("STM32 Core version v");
+  Serial.print(STM32_CORE_VERSION_MAJOR);
+  Serial.print(".");
+  Serial.print(STM32_CORE_VERSION_MINOR);
+  Serial.print(".");
+  Serial.println(STM32_CORE_VERSION_PATCH);
 #endif
 
   // start the ethernet connection and the server
@@ -84,13 +87,13 @@ void setup()
   //Ethernet.begin(mac[index], ip);
   // Use DHCP dynamic IP and random mac
   Ethernet.begin(mac[index]);
- 
-  if (udp.listen(1234)) 
+
+  if (udp.listen(1234))
   {
     Serial.print("UDP Listening on IP: ");
     Serial.println(Ethernet.localIP());
-    
-    udp.onPacket([](AsyncUDPPacket packet) 
+
+    udp.onPacket([](AsyncUDPPacket packet)
     {
       Serial.print("UDP Packet Type: ");
       Serial.print(packet.isBroadcast() ? "Broadcast" : packet.isMulticast() ? "Multicast" : "Unicast");
